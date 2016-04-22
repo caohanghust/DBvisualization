@@ -15,23 +15,23 @@ switch ($route) {
         break;
     case 'showtables':
         if(paraCheck(['dbname'])){
-            $db->dbname = $_GET['dbname'];
-            $db->init();
+            $db->dbname = $_POST['dbname'];
+            $db->init($_POST['dbname'],$_POST['dns'],$_POST['user'],$_POST['passwd']);
             output($db->tables);
         }
         break;
-    case 'getfieldnames':
-        if (paraCheck(['dbname','table'])) {
-            $db->dbname = $_GET['dbname'];
-            $db->init();
-            output($db->getFieldNames($_GET['table']));
-        }
-        break;
+    // case 'getfieldnames':
+    //     if (paraCheck(['dbname','table'])) {
+    //         $db->dbname = $_GET['dbname'];
+    //         $db->init();
+    //         output($db->getFieldNames($_GET['table']));
+    //     }
+    //     break;
     case 'getdata':
         if (paraCheck(['dbname','table','page'])) {
-            $db->dbname = $_GET['dbname'];
-            $db->init();
-            output($db->getData($_GET['table'],$_GET['page']));
+            $db->dbname = $_POST['dbname'];
+            $db->init($_POST['dbname'],$_POST['dns'],$_POST['user'],$_POST['passwd']);
+            output($db->getData($_POST['table'],$_POST['page']));
         }
         break;
     default:

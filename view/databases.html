@@ -1,13 +1,41 @@
 <div class="panel panel-default window">
-    <div class="panel-heading">
-        请选择你要连接的数据库
+    <div class="panel-heading text-center">
+        请选择你要连接的数据库和要查看的表
     </div>
-    <table class="table table-hover">
-        <tr ng-repeat="database in config.databases" ng-click="selectDb(database)">
-            <td class="text-center">
-                {{database}}
-            </td>
-        </tr>
-    </table>
+
+    <div class="panel-body">
+        <div class="container-fluid">
+            <div class="col-xs-6">
+                <table class="table table-hover text-center">
+                    <thead>
+                        <td>数据库</td>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="database in config.databases" ng-click="showTables(database)">
+                        <td >
+                            {{database}}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-xs-6">
+                <table class="table table-hover text-center">
+                    <thead>
+                    <td>表</td>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="table in config.tables" ng-click="getData(table)">
+                        <td>
+                            {{table}}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
 
 </div>
