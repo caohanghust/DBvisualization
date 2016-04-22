@@ -1,0 +1,21 @@
+{
+  "name": "DBvisualization",
+  "main": "index.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/caohanghust/DBvisualization",
+  "authors": [
+    "曹航 <caohanghust@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6",
+    "angular-route": "~1.5.5"
+  }
+}

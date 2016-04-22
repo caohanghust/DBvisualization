@@ -1,0 +1,23 @@
+<div id="login" class="panel panel-default window">
+    <div class="panel-heading">
+        连接数据库
+    </div>
+    <div class="panel-body">
+        <div class="input-group">
+            <span class="input-group-addon" >dns</span>
+            <input type="text" class="form-control" placeholder="请输入数据库服务器的域名或IP" ng-model="config.dns" />
+        </div>
+        <br/>
+        <div class="input-group">
+            <span class="input-group-addon">user</span>
+            <input type="text" class="form-control" placeholder="请输入用户名" ng-model="config.user" />
+        </div>
+        <br/>
+        <div class="input-group">
+            <span class="input-group-addon">passwd</span>
+            <input type="password" class="form-control" placeholder="请输入密码" ng-model="config.passwd" />
+        </div>
+        <br/>
+        <button class="btn btn-default center-block" ng-click="login()">连接</button>
+    </div>
+</div>

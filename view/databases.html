@@ -1,0 +1,13 @@
+<div class="panel panel-default window">
+    <div class="panel-heading">
+        请选择你要连接的数据库
+    </div>
+    <table class="table table-hover">
+        <tr ng-repeat="database in config.databases" ng-click="selectDb(database)">
+            <td class="text-center">
+                {{database}}
+            </td>
+        </tr>
+    </table>
+
+</div>
