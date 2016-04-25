@@ -11,7 +11,7 @@
                         <td>数据库</td>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="database in config.databases" ng-click="showTables(database)">
+                    <tr ng-repeat="database in data.databases" ng-click="showTables(database)">
                         <td >
                             {{database}}
                         </td>
@@ -25,7 +25,7 @@
                     <td>表</td>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="table in config.tables" ng-click="getData(table)">
+                    <tr ng-repeat="table in data.tables" ng-click="getData(table)">
                         <td>
                             {{table}}
                         </td>

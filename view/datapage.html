@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="col-xs-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                数据表
+            </div>
+            <div class="panel-body">
+                <p>
+                    <a ng-click="getData('last')">上一页</a>
+                    <span ng-repeat="i in [] | range:pageAmount">
+                        <a ng-click="getData(i)" ng-if="i<4||i>pageAmount-5||i==nowPage">
+                            <span ng-if="i==nowPage"><b>{{i}}</b></span>
+                            <span ng-if="i!=nowPage">{{i}}</span>
+                        </a>
+                    </span>
+                    <a ng-click="getData('next')">下一页</a>
+                </p>
+
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <td ng-repeat="filedName in filedNames">{{filedName}}</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in data.data">
+                        <td ng-repeat="(key,value) in item">{{value}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <h3 class="text-center" ng-if="data.data.length == 0">数据表为空</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-3">
+        TAB
+    </div>
+</div>

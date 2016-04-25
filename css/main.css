@@ -2,3 +2,7 @@
     width: 500px;
     margin: auto;
 }
+.login-error{
+    margin-top: 20px;
+    color: red;
+}

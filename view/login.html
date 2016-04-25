@@ -17,6 +17,9 @@
             <span class="input-group-addon">passwd</span>
             <input type="password" class="form-control" placeholder="请输入密码" ng-model="config.passwd" />
         </div>
+        <div ng-if="isError" class="text-center login-error">
+            <div class="bounceIn animated">{{errorMsg}}</div>
+        </div>
         <br/>
         <button class="btn btn-default center-block" ng-click="login()">连接</button>
     </div>

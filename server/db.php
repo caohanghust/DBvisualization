@@ -55,8 +55,8 @@ class Db {
         return $result;
     }
     function getData($table,$page){{
-        $sql = 'SELECT * FROM '.$table.' limit '.(string)($page*30).','.(string)($page*30+29);
-        $result = array();
+        $sql = 'SELECT * FROM '.$table.' limit '.(string)($page*15).',15';
+        $data = array();
         foreach (execSql($this->dbh,$sql) as $key => $value) {
             $item = array();
             foreach ($value as $key => $value) {
@@ -64,8 +64,11 @@ class Db {
                     $item[$key] = $value;
                 }
             }
-            array_push($result,$item);
+            array_push($data,$item);
         }
+        $sql = 'SELECT COUNT(*) FROM '.$table;
+        $amount = execSql($this->dbh,$sql);
+        $result=array('amount'=>$amount[0][0],'data'=>$data);
         return $result;
     }}
 }
