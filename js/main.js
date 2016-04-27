@@ -87,10 +87,13 @@ app.controller('Datapage',function($scope,$http){
     for(var index in $scope.data.data[0]){
         temp.push(index);
     }
-    $scope.filedNames = temp;
+    $scope.fieldNames = temp;
     $scope.nowPage = 0;
     $scope.pageAmount = Math.ceil($scope.data.dataAmout / 15) ;
+    $scope.selectedFieldName = null;
+    $scope.selectedMethod = null;
 
+    $scope.methods = ['','相同归类','数字间隔','时间间隔'];
     $scope.getData = function(page){
        if(typeof page == 'string'){
             if(page=='last'){
@@ -108,8 +111,27 @@ app.controller('Datapage',function($scope,$http){
         $http.post('http://last.com/?r=getdata', $.param($scope.config)).then(function(response){
             $scope.data.data = response.data.data;
             $scope.data.dataAmout = response.data.amount;
-            console.log(response.data.data.length);
             location.href = '#/datapage';
         })
+    }
+
+    $scope.selectFieldName = function(field){
+        $scope.selectedFieldName = field;
+    }
+    $scope.selectMethod = function(method){
+        $scope.selectedMethod = method;
+    }
+    $scope.sortStart = function(){
+        var postData = $scope.config;
+        postData.fieldName = $scope.selectedFieldName;
+        postData.method = $scope.selectedMethod;
+        if(postData.fieldName==null || postData.method==null){
+            alert('请选择统计方式');
+        }
+        else{
+            $http.post('http://last.com/?r=sortdata', $.param(postData)).then(function(response){
+                console.log(response);
+            })
+        }
     }
 })

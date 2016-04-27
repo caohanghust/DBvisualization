@@ -5,6 +5,7 @@
                 数据表
             </div>
             <div class="panel-body">
+                <p>当前位置: <a href="#/databases">{{config.dns}}</a>/<a href="#/databases">{{config.dbname}}</a>/{{config.table}} </p>
                 <p>
                     <a ng-click="getData('last')">上一页</a>
                     <span ng-repeat="i in [] | range:pageAmount">
@@ -19,7 +20,7 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                        <td ng-repeat="filedName in filedNames">{{filedName}}</td>
+                        <td ng-repeat="fieldName in fieldNames">{{fieldName}}</td>
                     </tr>
                     </thead>
                     <tbody>
@@ -33,6 +34,47 @@
         </div>
     </div>
     <div class="col-xs-3">
-        TAB
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                统计
+            </div>
+            <div class="panel-body">
+                <p>字段名：</p>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default">{{selectedFieldName?selectedFieldName:'选择要统计的字段'}}</button>
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="fieldName in fieldNames"><a ng-click="selectFieldName(fieldName)">{{fieldName}}</a></li>
+                    </ul>
+                </div>
+                <p>统计方式：</p>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default">{{selectedMethod?methods[selectedMethod]:'选择要统计的方式'}}</button>
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a ng-click="selectMethod(1)">相同归类</a></li>
+                        <li><a ng-click="selectMethod(2)">数字间隔</a></li>
+                        <li><a ng-click="selectMethod(3)">时间间隔</a></li>
+                    </ul>
+                </div>
+                <button class="btn btn-default" ng-click="sortStart()">
+                    开始统计
+                </button>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                绘图
+            </div>
+            <div class="panel-body">
+
+            </div>
+        </div>
     </div>
 </div>
