@@ -1,6 +1,6 @@
 <div class="container">
     <div class="col-xs-9">
-        <div class="panel panel-default">
+        <div class="panel panel-default" ng-if="!showchart">
             <div class="panel-heading">
                 数据表
             </div>
@@ -32,11 +32,22 @@
                 <h3 class="text-center" ng-if="data.data.length == 0">数据表为空</h3>
             </div>
         </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                图表
+            </div>
+            <div class="panel-body">
+                <div id="chart">
+                    
+                </div>
+            </div>
+
+        </div>
     </div>
     <div class="col-xs-3">
         <div class="panel panel-default">
             <div class="panel-heading">
-                统计
+                统计绘图
             </div>
             <div class="panel-body">
                 <p>字段名：</p>
@@ -50,19 +61,6 @@
                         <li ng-repeat="fieldName in fieldNames"><a ng-click="selectFieldName(fieldName)">{{fieldName}}</a></li>
                     </ul>
                 </div>
-                <p>统计方式：</p>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default">{{selectedMethod?methods[selectedMethod]:'选择要统计的方式'}}</button>
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a ng-click="selectMethod(1)">相同归类</a></li>
-                        <li><a ng-click="selectMethod(2)">数字间隔</a></li>
-                        <li><a ng-click="selectMethod(3)">时间间隔</a></li>
-                    </ul>
-                </div>
                 <button class="btn btn-default" ng-click="sortStart()">
                     开始统计
                 </button>
@@ -70,10 +68,33 @@
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">
+                过滤器
+            </div>
+            <div class="panel-body">
+                <div ng-repeat="fieldName in fieldNames" class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            {{fieldName}}
+                        </span>
+                        <input type="text" class="form-control" ng-model="config.filter[fieldName]" ng-change="filterChange()"/>
+                    </div>
+                    {{filter[fieldName]}}
+                    <br/>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default" ng-if="showchart">
+            <div class="panel-heading">
                 绘图
             </div>
             <div class="panel-body">
-
+                <p>绘图方式：</p>
+                <button class="btn btn-default" ng-click="changeChartType('bar')">
+                    柱状图
+                </button>
+                <button class="btn btn-default" ng-click="changeChartType('pie')">
+                    饼图
+                </button>
             </div>
         </div>
     </div>

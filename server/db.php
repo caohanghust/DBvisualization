@@ -8,7 +8,6 @@ function execSql($dbh,$sql){
     return $result;
 }
 class Db {
- 
     public $dbname = 'zbgk';
     public $host = 'localhost';
     public $user = 'root';
@@ -54,7 +53,7 @@ class Db {
         }
         return $result;
     }
-    function getData($table,$page){{
+    function getData($table,$page){
         $sql = 'SELECT * FROM '.$table.' limit '.(string)($page*15).',15';
         $data = array();
         foreach (execSql($this->dbh,$sql) as $key => $value) {
@@ -70,5 +69,13 @@ class Db {
         $amount = execSql($this->dbh,$sql);
         $result=array('amount'=>$amount[0][0],'data'=>$data);
         return $result;
-    }}
+    }
+    function sortData($table,$fieldname){
+        $sql = 'SELECT COUNT(*),'.$fieldname.' FROM '.$table .' GROUP BY '.$fieldname;
+        $result = array();
+        foreach (execSql($this->dbh,$sql) as $key => $value) {
+            array_push($result,array($fieldname=>$value[$fieldname],'amount'=>$value['COUNT(*)']));
+        }
+        return $result;
+    }
 }

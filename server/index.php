@@ -34,6 +34,13 @@ switch ($route) {
             output($db->getData($_POST['table'],$_POST['page']));
         }
         break;
+    case 'sortdata':
+        if (paraCheck(['dbname','table','fieldname'])) {
+            $db->dbname = $_POST['dbname'];
+            $db->init($_POST['dbname'],$_POST['dns'],$_POST['user'],$_POST['passwd']);
+            output($db->sortData($_POST['table'],$_POST['fieldname']));
+        }
+        break;
     default:
         echo '404 NOT FOUND';
         break;

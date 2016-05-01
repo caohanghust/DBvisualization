@@ -1,3 +1,6 @@
+li{
+    list-style: none;
+}
 .window{
     width: 500px;
     margin: auto;
@@ -5,4 +8,9 @@
 .login-error{
     margin-top: 20px;
     color: red;
+}
+#chart{
+    width: 90%;
+    height: 500px;
+    margin: auto;
 }
