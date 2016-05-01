@@ -131,8 +131,13 @@ app.controller('Datapage',function($scope,$http){
     $scope.selectFieldName = function(field){
         $scope.selectedFieldName = field;
     }
-    $scope.filterChange = function(){
-        //console.log($scope.config.filter);
+    $scope.submitFilter = function(){
+        $http.post('http://last.com/?r=getdata', $.param($scope.config)).then(function(response){
+            $scope.data.data = response.data.data;
+            $scope.data.dataAmout = response.data.amount;
+            $scope.pageAmount = Math.ceil($scope.data.dataAmout / 15) ;
+            location.href = '#/datapage';
+        })
     }
 
     $scope.sortStart = function(){

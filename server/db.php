@@ -53,8 +53,26 @@ class Db {
         }
         return $result;
     }
-    function getData($table,$page){
-        $sql = 'SELECT * FROM '.$table.' limit '.(string)($page*15).',15';
+    function getData($table,$page,$filter){
+        $filterSQL = ' WHERE 1 ';
+        if ($filter) {
+            $sql = 'SELECT * FROM '.$table;
+            //组装过滤器
+            foreach ($filter as $key => $value) {
+                if ($value) {
+                    if (preg_match('/>/', $value)) {
+                        $filterSQL = $filterSQL.' AND '.$key.' '.$value.' ';
+                    }elseif (preg_match('/</', $value)) {
+                        $filterSQL = $filterSQL.' AND '.$key.' '.$value.' ';
+                    }else{
+                        $filterSQL = $filterSQL.' AND '.$key.' = '.$value.' ';
+                    }
+                }
+            }
+            $sql = $sql.$filterSQL.' limit '.(string)($page*15).',15';
+        }else{
+            $sql = 'SELECT * FROM '.$table.' limit '.(string)($page*15).',15';
+        }
         $data = array();
         foreach (execSql($this->dbh,$sql) as $key => $value) {
             $item = array();
@@ -65,13 +83,31 @@ class Db {
             }
             array_push($data,$item);
         }
-        $sql = 'SELECT COUNT(*) FROM '.$table;
+        $sql = 'SELECT COUNT(*) FROM '.$table.$filterSQL;
         $amount = execSql($this->dbh,$sql);
         $result=array('amount'=>$amount[0][0],'data'=>$data);
         return $result;
     }
-    function sortData($table,$fieldname){
-        $sql = 'SELECT COUNT(*),'.$fieldname.' FROM '.$table .' GROUP BY '.$fieldname;
+    function sortData($table,$fieldname,$filter){
+        if ($filter) {
+            $sql = 'SELECT COUNT(*),'.$fieldname.' FROM '.$table .' WHERE 1 ';
+            foreach ($filter as $key => $value) {
+                //当value不为空时才过滤
+                if ($value) {
+                    if (preg_match('/>/', $value)) {
+                        $sql = $sql.' AND '.$key.' '.$value.' ';
+                    }elseif (preg_match('/</', $value)) {
+                        $sql = $sql.' AND '.$key.' '.$value.' ';
+                    }else{
+                        $sql = $sql.' AND '.$key.' = '.$value.' ';
+                    }
+                }
+            }
+            $sql = $sql.' GROUP BY '.$fieldname;
+            // var_dump($sql);
+        }else{
+            $sql = 'SELECT COUNT(*),'.$fieldname.' FROM '.$table .' GROUP BY '.$fieldname;
+        }
         $result = array();
         foreach (execSql($this->dbh,$sql) as $key => $value) {
             array_push($result,array($fieldname=>$value[$fieldname],'amount'=>$value['COUNT(*)']));

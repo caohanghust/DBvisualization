@@ -20,25 +20,19 @@ switch ($route) {
             output($db->tables);
         }
         break;
-    // case 'getfieldnames':
-    //     if (paraCheck(['dbname','table'])) {
-    //         $db->dbname = $_GET['dbname'];
-    //         $db->init();
-    //         output($db->getFieldNames($_GET['table']));
-    //     }
-    //     break;
     case 'getdata':
         if (paraCheck(['dbname','table','page'])) {
             $db->dbname = $_POST['dbname'];
             $db->init($_POST['dbname'],$_POST['dns'],$_POST['user'],$_POST['passwd']);
-            output($db->getData($_POST['table'],$_POST['page']));
+            output($db->getData($_POST['table'],$_POST['page'],isset($_POST['filter'])?$_POST['filter']:null));
         }
         break;
     case 'sortdata':
         if (paraCheck(['dbname','table','fieldname'])) {
             $db->dbname = $_POST['dbname'];
             $db->init($_POST['dbname'],$_POST['dns'],$_POST['user'],$_POST['passwd']);
-            output($db->sortData($_POST['table'],$_POST['fieldname']));
+            output($db->sortData($_POST['table'],$_POST['fieldname'],isset($_POST['filter'])?$_POST['filter']:null));
+
         }
         break;
     default:
