@@ -1,6 +1,26 @@
 /**
  * Created by caohang on 16/4/19.
  */
+
+
+Array.prototype.min = function () {
+    var min = this[0];
+    this.forEach(function(ele, index,arr) {
+        if(ele < min) {
+            min = ele;
+        }
+    })
+    return min;
+}
+Array.prototype.max = function (){
+    var max = this[0];
+    this.forEach (function(ele,index,arr){
+        if(ele > max) {
+            max = ele;
+        }
+    })
+    return max;
+}
 var app = angular.module('myApp',['ngRoute']);
 app.config(function($routeProvider){
     $routeProvider
@@ -101,14 +121,13 @@ app.controller('Datapage',function($scope,$http){
         xAxisData : [],
         yAxisData : [],
         unionData :[],
-        type : 'bar'
+        type : 'bar',
+        axisName:{
+            x:null,
+            y:null
+        }
     };
     $scope.dataType = 'count';
-
-    $scope.allDataAxis = {
-        x:null,
-        y:null
-    }
 
     $scope.fieldNames.forEach(function(item){
         $scope.config.filter[item] = null;
@@ -143,6 +162,7 @@ app.controller('Datapage',function($scope,$http){
             $scope.data.data = response.data.data;
             $scope.data.dataAmout = response.data.amount;
             $scope.pageAmount = Math.ceil($scope.data.dataAmout / 15) ;
+            $scope.showchart = false;
             location.href = '#/datapage';
         })
     }
@@ -167,13 +187,10 @@ app.controller('Datapage',function($scope,$http){
                     unionData.push({value:item['amount'],name:item[$scope.selectedFieldName]})
                 })
                 //填充数据
-                $scope.chartData = {
-                    fieldName : $scope.selectedFieldName,
-                    xAxisData : xAxisData,
-                    yAxisData : yAxisData,
-                    unionData : unionData,
-                    type : 'bar'
-                }
+                $scope.chartData.fieldName = $scope.selectedFieldName;
+                $scope.chartData.xAxisData = xAxisData;
+                $scope.chartData.yAxisData = yAxisData;
+                $scope.chartData.unionData = unionData;
                 //默认绘制柱状图
                 chart($scope.chartData);
             })
@@ -188,17 +205,35 @@ app.controller('Datapage',function($scope,$http){
     //源数据绘图
 
     $scope.selectRawDataFiled = function(axis,field){
-        $scope.allDataAxis[axis] = field;
-        if($scope.allDataAxis.x == $scope.allDataAxis.y){
-            $scope.allDataAxis[axis] = null;
+        $scope.chartData.axisName[axis] = field;
+        if($scope.chartData.axisName.x == $scope.chartData.axisName.y){
+            $scope.chartData.axisName[axis] = null;
             alert('X轴和Y轴的数据不能相同！');
         }
     }
     $scope.drawRawDataChart = function(){
         var postData = $scope.config;
-        postData.axis = $scope.allDataAxis;
+        postData.axis = $scope.chartData.axisName;
         $http.post('http://last.com/?r=getrawdata', $.param(postData)).then(function(response){
-            console.log(response);
+            $scope.showchart = true;
+
+            var yAxisData = [];
+            var xAxisData = [];
+            var unionData = [];
+            response.data.forEach(function(item){
+                yAxisData.push(item[$scope.chartData.axisName.y]);
+                xAxisData.push(item[$scope.chartData.axisName.x]);
+                unionData.push({value:item[$scope.chartData.axisName.y],name:item[$scope.chartData.axisName.x]})
+            })
+
+            //填充数据
+            $scope.chartData.fieldName = $scope.chartData.axisName.x + $scope.chartData.axisName.y;
+            $scope.chartData.xAxisData = xAxisData;
+            $scope.chartData.yAxisData = yAxisData;
+            $scope.chartData.unionData = unionData;
+            //默认绘制柱状图
+            chart($scope.chartData);
+
         })
     }
 })
@@ -222,7 +257,7 @@ function getOption(chartData){
         case 'bar':
             option = {
                 title: {
-                    text: chartData.fieldName+'统计数'
+                    text: chartData.fieldName,
                 },
                 tooltip: {},
                 legend: {
@@ -233,7 +268,7 @@ function getOption(chartData){
                 },
                 yAxis: {},
                 series: [{
-                    name: chartData.fieldName+'统计数',
+                    name: chartData.fieldName,
                     type: chartData.type,
                     data: chartData.yAxisData
                 }]
@@ -273,7 +308,58 @@ function getOption(chartData){
             };
             break;
         case 'map':
-
+            option = {
+                title : {
+                    text: chartData.axisName.y,
+                    subtext: '纯属虚构',
+                    left: 'center'
+                },
+                tooltip : {
+                    trigger: 'item'
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left',
+                    data:[chartData.axisName.y]
+                },
+                visualMap: {
+                    min: chartData.yAxisData.min(),
+                    max: chartData.yAxisData.max(),
+                    left: 'left',
+                    top: 'bottom',
+                    text:['高','低'],           // 文本，默认为数值文本
+                    calculable : true
+                },
+                toolbox: {
+                    show: true,
+                    orient : 'vertical',
+                    left: 'right',
+                    top: 'center',
+                    feature : {
+                        mark : {show: true},
+                        dataView : {show: true, readOnly: false},
+                        restore : {show: true},
+                        saveAsImage : {show: true}
+                    }
+                },
+                series : [
+                    {
+                        name: chartData.axisName.y,
+                        type: 'map',
+                        mapType: 'china',
+                        roam: false,
+                        label: {
+                            normal: {
+                                show: false
+                            },
+                            emphasis: {
+                                show: true
+                            }
+                        },
+                        data:chartData.unionData
+                    }
+                ]
+            };
             break;
         default :
             break;
@@ -281,3 +367,4 @@ function getOption(chartData){
 
     return option
 }
+

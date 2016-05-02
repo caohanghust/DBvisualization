@@ -76,7 +76,7 @@
                 <div ng-if="dataType == 'all'">
                     <p>X轴：</p>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default">{{allDataAxis.x?allDataAxis.x:'选择X轴数据'}}</button>
+                        <button type="button" class="btn btn-default">{{chartData.axisName.x?chartData.axisName.x:'选择X轴数据'}}</button>
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>
@@ -87,7 +87,7 @@
                     </div>
                     <p>Y轴：</p>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default">{{allDataAxis.y?allDataAxis.y:'选择Y轴数据'}}</button>
+                        <button type="button" class="btn btn-default">{{chartData.axisName.y?chartData.axisName.y:'选择Y轴数据'}}</button>
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>
@@ -103,6 +103,23 @@
                 </div>
             </div>
         </div>
+        <div class="panel panel-default" ng-if="showchart">
+            <div class="panel-heading">
+                绘图
+            </div>
+            <div class="panel-body">
+                <p>绘图方式：</p>
+                <button class="btn btn-default" ng-click="changeChartType('bar')">
+                    柱状图
+                </button>
+                <button class="btn btn-default" ng-click="changeChartType('pie')">
+                    饼图
+                </button>
+                <button class="btn btn-default" ng-click="changeChartType('map')">
+                    地图
+                </button>
+            </div>
+        </div>
         <div class="panel panel-default">
             <div class="panel-heading">
                 过滤器
@@ -116,24 +133,10 @@
                         <input type="text" class="form-control" ng-model="config.filter[fieldName]" ng-change="filterChange()"/>
                     </div>
                     {{filter[fieldName]}}
-                    <br/>
                 </div>
                 <button class="btn btn-default" ng-click="submitFilter()">过滤数据</button>
             </div>
         </div>
-        <div class="panel panel-default" ng-if="showchart">
-            <div class="panel-heading">
-                绘图
-            </div>
-            <div class="panel-body">
-                <p>绘图方式：</p>
-                <button class="btn btn-default" ng-click="changeChartType('bar')">
-                    柱状图
-                </button>
-                <button class="btn btn-default" ng-click="changeChartType('pie')">
-                    饼图
-                </button>
-            </div>
-        </div>
+
     </div>
 </div>
