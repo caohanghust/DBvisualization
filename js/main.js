@@ -66,6 +66,7 @@ app.controller('Login',function($scope,$http){
     }
 })
 app.controller('Databases',function($scope,$http){
+    $scope.config.filter = {};
     $scope.showTables = function(dbname){
         $scope.config.dbname = dbname;
         $http.post('http://last.com/?r=showtables', $.param($scope.config)).then(function(response){

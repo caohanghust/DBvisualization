@@ -61,11 +61,11 @@ class Db {
             foreach ($filter as $key => $value) {
                 if ($value) {
                     if (preg_match('/>/', $value)) {
-                        $filterSQL = $filterSQL.' AND '.$key.' '.$value.' ';
+                        $filterSQL = $filterSQL." AND ".$key.' '.$value.' ';
                     }elseif (preg_match('/</', $value)) {
                         $filterSQL = $filterSQL.' AND '.$key.' '.$value.' ';
                     }else{
-                        $filterSQL = $filterSQL.' AND '.$key.' = '.$value.' ';
+                        $filterSQL = $filterSQL.' AND '.$key.' = "'.$value.'" ';
                     }
                 }
             }
@@ -95,11 +95,11 @@ class Db {
                 //当value不为空时才过滤
                 if ($value) {
                     if (preg_match('/>/', $value)) {
-                        $sql = $sql.' AND '.$key.' '.$value.' ';
+                        $sql = $sql.' AND '.$key.' "'.$value.'" ';
                     }elseif (preg_match('/</', $value)) {
-                        $sql = $sql.' AND '.$key.' '.$value.' ';
+                        $sql = $sql.' AND '.$key.' "'.$value.'" ';
                     }else{
-                        $sql = $sql.' AND '.$key.' = '.$value.' ';
+                        $sql = $sql.' AND '.$key.' = "'.$value.'" ';
                     }
                 }
             }
