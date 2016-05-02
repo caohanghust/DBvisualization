@@ -32,7 +32,13 @@ switch ($route) {
             $db->dbname = $_POST['dbname'];
             $db->init($_POST['dbname'],$_POST['dns'],$_POST['user'],$_POST['passwd']);
             output($db->sortData($_POST['table'],$_POST['fieldname'],isset($_POST['filter'])?$_POST['filter']:null));
-
+        }
+        break;
+    case 'getrawdata':
+        if (paraCheck(['dbname','table','axis'])) {
+            $db->dbname = $_POST['dbname'];
+            $db->init($_POST['dbname'],$_POST['dns'],$_POST['user'],$_POST['passwd']);
+            output($db->getRawData($_POST['table'],$_POST['axis'],isset($_POST['filter'])?$_POST['filter']:null));
         }
         break;
     default:

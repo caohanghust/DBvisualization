@@ -103,6 +103,12 @@ app.controller('Datapage',function($scope,$http){
         unionData :[],
         type : 'bar'
     };
+    $scope.dataType = 'count';
+
+    $scope.allDataAxis = {
+        x:null,
+        y:null
+    }
 
     $scope.fieldNames.forEach(function(item){
         $scope.config.filter[item] = null;
@@ -177,6 +183,23 @@ app.controller('Datapage',function($scope,$http){
     $scope.changeChartType = function(type){
         $scope.chartData.type = type;
         chart($scope.chartData);
+    }
+
+    //源数据绘图
+
+    $scope.selectRawDataFiled = function(axis,field){
+        $scope.allDataAxis[axis] = field;
+        if($scope.allDataAxis.x == $scope.allDataAxis.y){
+            $scope.allDataAxis[axis] = null;
+            alert('X轴和Y轴的数据不能相同！');
+        }
+    }
+    $scope.drawRawDataChart = function(){
+        var postData = $scope.config;
+        postData.axis = $scope.allDataAxis;
+        $http.post('http://last.com/?r=getrawdata', $.param(postData)).then(function(response){
+            console.log(response);
+        })
     }
 })
 

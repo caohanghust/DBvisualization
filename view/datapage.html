@@ -47,23 +47,60 @@
     <div class="col-xs-3">
         <div class="panel panel-default">
             <div class="panel-heading">
-                统计绘图
+                绘图
             </div>
             <div class="panel-body">
-                <p>字段名：</p>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default">{{selectedFieldName?selectedFieldName:'选择要统计的字段'}}</button>
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
+                <p>选择绘图数据：</p>
+                <label class="radio-inline">
+                    <input type="radio" name="dataType" value="count" ng-model="dataType">统计数据
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="dataType" value="all" ng-model="dataType">原数据
+                </label>
+                <div ng-if="dataType == 'count'">
+                    <p>字段名：</p>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default">{{selectedFieldName?selectedFieldName:'选择要统计的字段'}}</button>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li ng-repeat="fieldName in fieldNames"><a ng-click="selectFieldName(fieldName)">{{fieldName}}</a></li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-default" ng-click="sortStart()">
+                        开始统计
                     </button>
-                    <ul class="dropdown-menu">
-                        <li ng-repeat="fieldName in fieldNames"><a ng-click="selectFieldName(fieldName)">{{fieldName}}</a></li>
-                    </ul>
                 </div>
-                <button class="btn btn-default" ng-click="sortStart()">
-                    开始统计
-                </button>
+                <div ng-if="dataType == 'all'">
+                    <p>X轴：</p>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default">{{allDataAxis.x?allDataAxis.x:'选择X轴数据'}}</button>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li ng-repeat="fieldName in fieldNames"><a ng-click="selectRawDataFiled('x',fieldName)">{{fieldName}}</a></li>
+                        </ul>
+                    </div>
+                    <p>Y轴：</p>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default">{{allDataAxis.y?allDataAxis.y:'选择Y轴数据'}}</button>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li ng-repeat="fieldName in fieldNames"><a ng-click="selectRawDataFiled('y',fieldName)">{{fieldName}}</a></li>
+                        </ul>
+                    </div>
+
+                    <button class="btn btn-default" ng-click="drawRawDataChart()">
+                        绘图
+                    </button>
+                </div>
             </div>
         </div>
         <div class="panel panel-default">

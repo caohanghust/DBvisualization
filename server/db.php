@@ -61,9 +61,9 @@ class Db {
             foreach ($filter as $key => $value) {
                 if ($value) {
                     if (preg_match('/>/', $value)) {
-                        $filterSQL = $filterSQL." AND ".$key.' '.$value.' ';
+                        $filterSQL = $filterSQL.' AND '.$key.'>'.preg_replace('/>/','',$value).' ';
                     }elseif (preg_match('/</', $value)) {
-                        $filterSQL = $filterSQL.' AND '.$key.' '.$value.' ';
+                        $filterSQL = $filterSQL.' AND '.$key.'<'.preg_replace('/</','',$value).' ';
                     }else{
                         $filterSQL = $filterSQL.' AND '.$key.' = "'.$value.'" ';
                     }
@@ -95,9 +95,9 @@ class Db {
                 //当value不为空时才过滤
                 if ($value) {
                     if (preg_match('/>/', $value)) {
-                        $sql = $sql.' AND '.$key.' "'.$value.'" ';
+                        $sql = $sql.' AND '.$key.'>'.preg_replace('/>/','',$value).' ';
                     }elseif (preg_match('/</', $value)) {
-                        $sql = $sql.' AND '.$key.' "'.$value.'" ';
+                        $sql = $sql.' AND '.$key.'<'.preg_replace('/</','',$value).' ';
                     }else{
                         $sql = $sql.' AND '.$key.' = "'.$value.'" ';
                     }
@@ -113,5 +113,35 @@ class Db {
             array_push($result,array($fieldname=>$value[$fieldname],'amount'=>$value['COUNT(*)']));
         }
         return $result;
+    }
+    function getRawData($table,$axis,$filter){
+        if ($filter) {
+            $sql = 'SELECT '.$axis['x'].','.$axis['y'].' FROM '.$table .' WHERE 1 ';
+            foreach ($filter as $key => $value) {
+                //当value不为空时才过滤
+                if ($value) {
+                    if (preg_match('/>/', $value)) {
+                        $sql = $sql.' AND '.$key.'>'.preg_replace('/>/','',$value).' ';
+                    }elseif (preg_match('/</', $value)) {
+                        $sql = $sql.' AND '.$key.'<'.preg_replace('/</','',$value).' ';
+                    }else{
+                        $sql = $sql." AND ".$key." = '".$value."'";
+                    }
+                }
+            }
+        }else{
+            $sql = 'SELECT '.$axis['x'].','.$axis['y'].' FROM '.$table ;
+        }
+        $data = array();
+        foreach (execSql($this->dbh,$sql) as $key => $value) {
+            $item = array();
+            foreach ($value as $key => $value) {
+                if (is_string($key)) {
+                    $item[$key] = $value;
+                }
+            }
+            array_push($data,$item);
+        }
+        return $data;
     }
 }
