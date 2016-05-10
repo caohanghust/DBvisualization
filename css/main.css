@@ -1,9 +1,22 @@
 li{
     list-style: none;
 }
+td:hover{
+    cursor: pointer;
+}
 .window{
     width: 500px;
-    margin: auto;
+    margin: 100px auto;
+}
+
+.db-list{
+    max-height: 500px;
+    overflow: scroll;
+}
+
+.login{
+    width: 500px;
+    margin: 200px auto;
 }
 .login-error{
     margin-top: 20px;

@@ -311,7 +311,6 @@ function getOption(chartData){
             option = {
                 title : {
                     text: chartData.axisName.y,
-                    subtext: '纯属虚构',
                     left: 'center'
                 },
                 tooltip : {
