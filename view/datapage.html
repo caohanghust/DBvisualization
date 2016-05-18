@@ -1,6 +1,6 @@
 <div class="container">
     <div class="col-xs-9">
-        <div class="panel panel-default" ng-if="!showchart">
+        <div class="panel panel-default data-box" ng-if="!showchart">
             <div class="panel-heading">
                 数据表
             </div>
@@ -32,16 +32,15 @@
                 <h3 class="text-center" ng-if="data.data.length == 0">数据表为空</h3>
             </div>
         </div>
-        <div class="panel panel-default" ng-if="showchart">
+        <div class="panel panel-default chart-box" ng-if="showchart">
             <div class="panel-heading">
                 图表
             </div>
             <div class="panel-body">
                 <div id="chart">
-                    
+
                 </div>
             </div>
-
         </div>
     </div>
     <div class="col-xs-3">

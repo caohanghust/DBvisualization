@@ -8,7 +8,7 @@ function execSql($dbh,$sql){
     return $result;
 }
 class Db {
-    public $dbname = 'zbgk';
+    public $dbname = 'mysql';
     public $host = 'localhost';
     public $user = 'root';
     public $passwd = '';

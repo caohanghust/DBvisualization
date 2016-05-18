@@ -54,7 +54,7 @@ app.controller('App',function($scope,$http){
         dns : 'localhost',
         user : 'root',
         passwd : '',
-        dbname:'zbgk',
+        dbname:'mysql',
         table:null,
         page:0,
         filter:{}
@@ -240,14 +240,16 @@ app.controller('Datapage',function($scope,$http){
 
 //绘图函数
 function chart(chartData){
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('chart'));
+    setTimeout(function(){
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('chart'));
 
-    // 指定图表的配置项和数据
-    var option = getOption(chartData);
+        // 指定图表的配置项和数据
+        var option = getOption(chartData);
 
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option);
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    },100);
 }
 //生成绘图配置
 function getOption(chartData){
@@ -327,7 +329,8 @@ function getOption(chartData){
                     left: 'left',
                     top: 'bottom',
                     text:['高','低'],           // 文本，默认为数值文本
-                    calculable : true
+                    calculable : true,
+                    color:['red','yellow','green']
                 },
                 toolbox: {
                     show: true,
@@ -349,7 +352,7 @@ function getOption(chartData){
                         roam: false,
                         label: {
                             normal: {
-                                show: false
+                                show: true
                             },
                             emphasis: {
                                 show: true
